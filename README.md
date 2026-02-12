@@ -4,7 +4,7 @@ Tool to assist in processing OCR-ed text of [Works of Kalidasa Vol 1 - C. R. Dev
 
 ## Usage Instructions
 1. **Open the Tool**
-	- Open [index.html](TODO:insert_link) in your browser.
+	- Open the [KalidasaOCR Processing Tool](https://sourav-kulkarni.github.io/KalidasaOCR/) in your browser.
 2. **Load texts**
     - Load the sanskrit text in the left pane
     - Load the english text in the right pane
