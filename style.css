@@ -1,0 +1,184 @@
+:root {
+  --color0: #ffeb3b;
+  --color1: #8bc34a;
+  --color2: #92b8fd;
+}
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #eef1f4;
+}
+
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hint {
+  font-size: 0.85rem;
+  color: #bdc3c7;
+  margin-left: 15px;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  gap: 20px;
+  padding: 20px;
+  overflow: hidden;
+}
+
+.pane {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 10px;
+  border: 1px solid #d1d8e0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.pane-header {
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #d1d8e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pane-title {
+  font-weight: 600;
+  color: #4b6584;
+  letter-spacing: 1px;
+}
+.pane-count {
+  font-size: 1rem;
+  color: #2d3436;
+}
+.pane-count b {
+  font-size: 1rem;
+  color: #000000;
+}
+
+.indicator {
+  color: #4b6584;
+  letter-spacing: 1px;
+}
+
+.editor-wrapper {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+.editor {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  outline: none;
+  white-space: pre-wrap;
+  line-height: 1.8;
+  font-size: 18px;
+  color: #2f3542;
+}
+
+/* Highlights */
+.hl-node {
+  position: relative;
+  padding: 2px 0;
+  border-radius: 3px;
+  cursor: text;
+  transition: box-shadow 0.2s;
+}
+.hl-node.active-hl {
+  box-shadow: 0 0 0 2px #333;
+}
+.hl-0 {
+  background: var(--color0);
+}
+.hl-1 {
+  background: var(--color1);
+}
+.hl-2 {
+  background: var(--color2);
+}
+
+.del-btn {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  width: 20px;
+  height: 20px;
+  background: #ff4757;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  z-index: 10;
+  border: 2px solid white;
+}
+
+.hl-node.active-hl .del-btn {
+  display: flex;
+}
+
+.btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.2s;
+}
+.btn-load {
+  background: #d56513;
+  color: white;
+  margin-right: 8px;
+}
+.btn-save {
+  background: #3498db;
+  color: white;
+  margin-right: 8px;
+}
+.btn-export {
+  background: #27ae60;
+  color: white;
+}
+
+.color-label {
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: black;
+  font-weight: bold;
+}
+.empty-state {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* .sanskrit-editor {
+  font-family: "Noto Serif Devanagari", serif;
+}
+.english-editor {
+  font-family: "Cambria", serif;
+} */

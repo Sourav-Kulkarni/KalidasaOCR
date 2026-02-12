@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet"> -->
+    <title>KalidasaOCR Processing Tool</title>
+</head>
+<body>
+
+<header>
+    <div class="logo">
+        <strong>KalidasaOCR Processing Tool</strong>
+        <span class="hint">Select text, then <b>Ctrl+Shift+S</b> to highlight | <b>Ctrl+Z</b> to undo</span>
+    </div>
+    <div class="actions">
+        <input type="file" id="loadProject" hidden onchange="loadProject(this)">
+        <button class="btn btn-load" onclick="document.getElementById('loadProject').click()">Load Project</button>
+        <button class="btn btn-save" onclick="saveToDisk()">Save Project</button>
+        <button class="btn btn-export" onclick="exportMappings()">Export JSON Map</button>
+    </div>
+</header>
+
+<main class="container">
+    <section class="pane">
+        <div class="pane-header">
+            <span class="pane-title">SANSKRIT</span>
+            <span class="pane-count">SANS COUNT: <b id="sanskrit-count">0</b></span>
+            <span id="sanskrit-indicator" class="indicator">NEXT: <span class="color-label">YELLOW</span></span>
+        </div>
+        <div class="editor-wrapper">
+            <div id="sanskrit-editor" class="editor" contenteditable="true"></div>
+            <div id="sanskrit-empty" class="empty-state">
+                <input type="file" id="input-sanskrit" hidden onchange="handleTxtFile(this, 'sanskrit')">
+                <button onclick="document.getElementById('input-sanskrit').click()">Load Sanskrit TXT</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="pane">
+        <div class="pane-header">
+            <span class="pane-title">ENGLISH</span>
+            <span class="pane-count">ENG COUNT: <b id="english-count">0</b></span>
+            <span id="english-indicator" class="indicator">NEXT: <span class="color-label">YELLOW</span></span>
+        </div>
+        <div class="editor-wrapper">
+            <div id="english-editor" class="editor" contenteditable="true"></div>
+            <div id="english-empty" class="empty-state">
+                <input type="file" id="input-even" hidden onchange="handleTxtFile(this, 'english')">
+                <button onclick="document.getElementById('input-even').click()">Load English TXT</button>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
