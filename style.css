@@ -80,6 +80,25 @@ header {
   overflow: hidden;
   display: flex;
 }
+.gutter {
+  width: 50px;
+  background: #f4f6f8;
+  border-right: 1px solid #e0e6ec;
+  color: #6c7680;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 18px;
+  line-height: 1.8;
+  overflow: hidden;
+  padding: 25px 8px;
+  box-sizing: border-box;
+  text-align: right;
+  flex-shrink: 0;
+}
+.gutter .line-numbers {
+  margin: 0;
+  white-space: pre-wrap;
+}
+
 .editor {
   flex: 1;
   padding: 25px;

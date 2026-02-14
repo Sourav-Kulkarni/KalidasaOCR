@@ -1,7 +1,7 @@
 const COLORS = ['YELLOW', 'GREEN', 'BLUE'];
 let state = {
-    sanskrit: { colorIndex: 0, content: "" },
-    english: { colorIndex: 0, content: "" }
+    sanskrit: { colorIndex: 0, content: "", lastHighlightLine: 0 },
+    english: { colorIndex: 0, content: "", lastHighlightLine: 0 }
 };
 let globalHistory = [];
 
@@ -11,6 +11,8 @@ window.onload = () => {
         state = JSON.parse(saved);
         refreshUI('sanskrit');
         refreshUI('english');
+        scrollToLastHighlight('sanskrit');
+        scrollToLastHighlight('english');
     }
     checkEmpty();
 };``
@@ -68,6 +70,8 @@ function refreshUI(side) {
     document.getElementById(`${side}-editor`).innerHTML = state[side].content;
     updateIndicator(side);
     updateCount(side);
+    updateLineNumbers(side);
+    updateAnalysisProgress(side);
     checkEmpty();
 }
 
@@ -96,6 +100,14 @@ document.querySelectorAll('.editor').forEach(ed => {
         state[side].content = ed.innerHTML;
         persist();
         updateCount(side);
+        updateLineNumbers(side);
+    });
+
+    // Sync gutter scroll with editor
+    ed.addEventListener('scroll', () => {
+        const side = ed.id.split('-')[0];
+        const gutter = document.getElementById(`${side}-gutter`);
+        if (gutter) gutter.scrollTop = ed.scrollTop;
     });
 
     ed.addEventListener('click', (e) => {
@@ -147,6 +159,62 @@ function applyHighlight(side, selection) {
     persist();
 }
 
+function updateLineNumbers(side) {
+    const ed = document.getElementById(`${side}-editor`);
+    const gutter = document.getElementById(`${side}-gutter`);
+    if (!ed || !gutter) return;
+
+    // Count rendered lines using innerText newlines
+    const text = ed.innerText || '';
+    const lines = text.split(/\r\n|\r|\n/).length || 1;
+    let nums = '';
+    for (let i = 1; i <= lines; i++) nums += i + '\n';
+    gutter.querySelector('.line-numbers').innerText = nums;
+    // Keep gutter scroll synced
+    gutter.scrollTop = ed.scrollTop;
+}
+
+function getLastHighlightLine(side) {
+    const ed = document.getElementById(`${side}-editor`);
+    const highlights = ed.querySelectorAll('.hl-node');
+    if (highlights.length === 0) return 0;
+    
+    const lastHighlight = highlights[highlights.length - 1];
+    const editorText = ed.innerText;
+    const highlightText = lastHighlight.innerText.replace(' × ', '').trim();
+    
+    // Count lines from start of editor to the last highlight
+    const textUpToHighlight = ed.textContent.substring(0, ed.textContent.indexOf(highlightText));
+    const lineNum = textUpToHighlight.split(/\r\n|\r|\n/).length;
+    return lineNum;
+}
+
+function getTotalLines(side) {
+    const ed = document.getElementById(`${side}-editor`);
+    const text = ed.innerText || '';
+    return text.split(/\r\n|\r|\n/).length || 1;
+}
+
+function updateAnalysisProgress(side) {
+    const lastLine = getLastHighlightLine(side);
+    const totalLines = getTotalLines(side);
+    state[side].lastHighlightLine = lastLine;
+    
+    const percentage = totalLines > 0 ? Math.round((lastLine / totalLines) * 100) : 0;
+    const paneTitle = document.querySelector(`#${side}-indicator`).parentElement.querySelector('.pane-title');
+    paneTitle.innerText = `${side.toUpperCase()} (${percentage}%)`;
+}
+
+function scrollToLastHighlight(side) {
+    const ed = document.getElementById(`${side}-editor`);
+    if (!ed || state[side].lastHighlightLine === 0) return;
+    
+    const lineHeight = parseFloat(window.getComputedStyle(ed).lineHeight);
+    const scrollPosition = (state[side].lastHighlightLine - 1) * lineHeight;
+    ed.scrollTop = scrollPosition;
+    document.getElementById(`${side}-gutter`).scrollTop = scrollPosition;
+}
+
 
 // --- FILE OPERATIONS ---
 
@@ -180,6 +248,8 @@ function loadProject(input) {
         takeSnapshot();
         state = JSON.parse(e.target.result);
         refreshUI('sanskrit'); refreshUI('english');
+        scrollToLastHighlight('sanskrit');
+        scrollToLastHighlight('english');
     };
     reader.readAsText(file);
 }
@@ -194,8 +264,8 @@ function exportMappings() {
     for (let i = 0; i < len; i++) {
         mappings.push({
             map_id: i + 1,
-            sanskrit: oddNodes[i].innerText.replace(' × ', '').trim(),
-            english: evenNodes[i].innerText.replace(' × ', '').trim()
+            sanskrit: oddNodes[i].innerText.replace(' × ', '').split('\n').map(l => l.trim()).filter(l => l).join('\n'),
+            english: evenNodes[i].innerText.replace(' × ', '').split('\n').map(l => l.trim()).filter(l => l).join('\n')
         });
     }
 

@@ -3,9 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="style.css">
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital@0;1&family=Tiro+Devanagari+Sanskrit:ital@0;1&display=swap" rel="stylesheet"> -->
     <title>KalidasaOCR Processing Tool</title>
 </head>
 <body>
@@ -31,6 +28,7 @@
             <span id="sanskrit-indicator" class="indicator">NEXT: <span class="color-label">YELLOW</span></span>
         </div>
         <div class="editor-wrapper">
+            <div id="sanskrit-gutter" class="gutter"><pre class="line-numbers"></pre></div>
             <div id="sanskrit-editor" class="editor" contenteditable="true"></div>
             <div id="sanskrit-empty" class="empty-state">
                 <input type="file" id="input-sanskrit" hidden onchange="handleTxtFile(this, 'sanskrit')">
@@ -46,6 +44,7 @@
             <span id="english-indicator" class="indicator">NEXT: <span class="color-label">YELLOW</span></span>
         </div>
         <div class="editor-wrapper">
+            <div id="english-gutter" class="gutter"><pre class="line-numbers"></pre></div>
             <div id="english-editor" class="editor" contenteditable="true"></div>
             <div id="english-empty" class="empty-state">
                 <input type="file" id="input-even" hidden onchange="handleTxtFile(this, 'english')">
