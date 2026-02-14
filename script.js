@@ -41,7 +41,13 @@ document.addEventListener('keydown', (e) => {
         }
     }
 
-    // Ctrl+Shift+S: Highlight
+    // Ctrl+S: Save Project
+    if (cmdKey && e.key.toLowerCase() === 's' && !e.shiftKey) {
+        e.preventDefault();
+        saveToDisk();
+    }
+
+    // Ctrl+Shift+S: Highlight (with preventDefault to disable default behavior)
     if (cmdKey && e.shiftKey && e.key.toLowerCase() === 's') {
         e.preventDefault();
         const selection = window.getSelection();
@@ -127,9 +133,22 @@ document.querySelectorAll('.editor').forEach(ed => {
             refreshUI(side);
             persist();
         } else if (highlight) {
-            // Activate highlight on click
+            // Activate highlight on click and show highlight number
             document.querySelectorAll('.hl-node').forEach(n => n.classList.remove('active-hl'));
             highlight.classList.add('active-hl');
+            
+            // Calculate highlight number
+            const allHighlights = ed.querySelectorAll('.hl-node');
+            const highlightIndex = Array.from(allHighlights).indexOf(highlight) + 1;
+            
+            // Add or update highlight number display
+            let hlNumber = highlight.querySelector('.hl-number');
+            if (!hlNumber) {
+                hlNumber = document.createElement('span');
+                hlNumber.className = 'hl-number';
+                highlight.appendChild(hlNumber);
+            }
+            hlNumber.textContent = highlightIndex;
         }
     });
 });
