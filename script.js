@@ -76,6 +76,7 @@ function refreshUI(side) {
     document.getElementById(`${side}-editor`).innerHTML = state[side].content;
     updateIndicator(side);
     updateCount(side);
+    updateHighlightNumbers(side);
     updateLineNumbers(side);
     updateAnalysisProgress(side);
     checkEmpty();
@@ -92,6 +93,39 @@ function updateCount(side) {
     document.getElementById(`${side}-count`).innerText = count;
 }
 
+function updateHighlightNumbers(side) {
+    const ed = document.getElementById(`${side}-editor`);
+    const highlights = ed.querySelectorAll('.hl-node');
+    
+    highlights.forEach((highlight, index) => {
+        // Update highlight number
+        let hlNumber = highlight.querySelector('.hl-number');
+        if (!hlNumber) {
+            hlNumber = document.createElement('span');
+            hlNumber.className = 'hl-number';
+            hlNumber.contentEditable = 'false';
+            highlight.appendChild(hlNumber);
+        }
+        hlNumber.textContent = index + 1;
+        
+        // Update color class based on position
+        const colorIndex = index % COLORS.length;
+        // Remove old color classes
+        highlight.classList.remove('hl-0', 'hl-1', 'hl-2');
+        // Add new color class
+        highlight.classList.add(`hl-${colorIndex}`);
+        
+        // Ensure delete button exists
+        if (!highlight.querySelector('.del-btn')) {
+            const delBtn = document.createElement('span');
+            delBtn.innerHTML = '&times;';
+            delBtn.className = 'del-btn';
+            delBtn.contentEditable = 'false';
+            highlight.appendChild(delBtn);
+        }
+    });
+}
+
 function checkEmpty() {
     ['sanskrit', 'english'].forEach(side => {
         const isEmpty = document.getElementById(`${side}-editor`).innerText.trim() === "";
@@ -106,6 +140,7 @@ document.querySelectorAll('.editor').forEach(ed => {
         state[side].content = ed.innerHTML;
         persist();
         updateCount(side);
+        updateHighlightNumbers(side);
         updateLineNumbers(side);
     });
 
@@ -126,29 +161,19 @@ document.querySelectorAll('.editor').forEach(ed => {
             node.replaceWith(...node.childNodes);
             // Clean up text nodes
             ed.querySelectorAll('.del-btn').forEach(b => b.remove());
+            ed.querySelectorAll('.hl-number').forEach(n => n.remove());
             state[side].content = ed.innerHTML;
             // Decrement color index with loop back
             state[side].colorIndex = (state[side].colorIndex - 1 + COLORS.length) % COLORS.length;
             updateIndicator(side);
             refreshUI(side);
+            // Save updated content after highlights are refreshed and renumbered
+            state[side].content = ed.innerHTML;
             persist();
         } else if (highlight) {
-            // Activate highlight on click and show highlight number
+            // Activate highlight on click
             document.querySelectorAll('.hl-node').forEach(n => n.classList.remove('active-hl'));
             highlight.classList.add('active-hl');
-            
-            // Calculate highlight number
-            const allHighlights = ed.querySelectorAll('.hl-node');
-            const highlightIndex = Array.from(allHighlights).indexOf(highlight) + 1;
-            
-            // Add or update highlight number display
-            let hlNumber = highlight.querySelector('.hl-number');
-            if (!hlNumber) {
-                hlNumber = document.createElement('span');
-                hlNumber.className = 'hl-number';
-                highlight.appendChild(hlNumber);
-            }
-            hlNumber.textContent = highlightIndex;
         }
     });
 });
