@@ -134,8 +134,8 @@ header {
 .del-btn {
   display: none; /* Hidden by default */
   position: absolute;
-  top: -20px;
-  right: -30px;
+  bottom: 1rem;
+  right: -1rem;
   width: 20px;
   height: 20px;
   background: #ff4757;

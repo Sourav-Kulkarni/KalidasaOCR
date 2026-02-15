@@ -13,16 +13,17 @@ Tool to assist in processing OCR-ed text of [Works of Kalidasa Vol 1 - C. R. Dev
     - Then you can either move on to the next block of text in the same pane or find a corresponding semantically similar block of text in the other pane and highlight it too.
     - A successful mapping is one where semantically similar text blocks from both the panes are highlighted in the same colour.
 5. **Saving and Loading Projects**
-    - Your current progress in the project can (and should) be saved locally. For this, just click on the 'Save Project' button in the top-right corner of the homepage. 
+    - Your current progress in the project can (and should) be saved locally. For this, just click on the 'Save Project' button in the top-right corner of the homepage or use the keyboard shortcut `Ctrl+S` 
     - You can load an existing project from your PC by clicking on the 'Load Project' button in the top-right corner of the homepage. 
 6. **Exporting mappings to JSON**
     - You can directly export your current sanskrit-english mappings to a JSON file by clicking on the 'Export JSON Map' button the top-right corner of the homepage.  
 
 ## Notes:
-1. Text editing can be done directly in the text boxes by placing your cursor on the required location, regardless of whether that's in an existing highlight or not.
-2. I truly recommend periodically saving your progress locally using the 'Save Project' button.
+1. Text editing can be done directly in the text boxes by placing your cursor on the required location. You cannot directly edit text placed inside highlights, but you can delete that highlight, make the necessary edits and re-highlight that text.
+2. I truly recommend periodically saving your progress locally using the 'Save Project' button or the keyboard shortcut `Ctrl+S` which is easier.
 3. Every now and then, keep an eye on the "COUNT" notified on the title bar of each pane. This indicates the number of text blocks highligted for that particular pane. Make sure that both of these are in sync at the end of a successful mapping session.
-4. You can delete mis-highlighted text blocks by clicking on the highlight and then pressing the [X] button that appears on top of the highlight, but be cautious that deleting a highlight box which has following highlights breaks the mapping counter syncronization across panes and will lead to unexpected behaviour. When this happens, I suggest using the provided Undo functionality to rever back to the last correct mapping and then starting again.
+4. You can delete mis-highlighted text blocks by clicking on the highlight and then pressing the [X] button that appears on top of the highlight. Highlights can be deleted and added in between existing highlights, and they should automatically renumber and re-colour themselves, but it may lead to unexpected behaviour and I would be cautious while doing so. It's better to be extra vigilant while making the highlight in the first place.
+5. Lastly, you can undo highlights or edits using the usual keyboard shortcut `Ctrl+Z`.
 
 
 Please report any bugs or feature requests to @Sourav-Kulkarni (srvklkrn@gmail.com).
